@@ -45,7 +45,9 @@ namespace mpSnake
             Console.Clear();
             Console.SetCursorPosition(width / 2, height / 2); //position in centre of window
             Console.Write(name + " you are dead! score: " + snakeyboi.Count);
-            Console.ReadLine();
+            Console.ReadKey();
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Clear();
         }
         static List<coordinate> GetLong(List<coordinate> snakeBoi, int xMove, int yMove, bool eating)
         {
@@ -85,11 +87,11 @@ namespace mpSnake
             snake.y = height / 2;
             int xdirection = -1;
             int ydirection = 0;
-            Boolean dead = false;
+            bool dead = false;
             //fill screen
 
-            Console.SetWindowSize(width, height);
-            Console.SetWindowPosition(0, 0);
+            //Console.SetWindowSize(width, height);
+            //Console.SetWindowPosition(0, 0);
             Console.CursorVisible = false;
             List<coordinate> snakeBoi = new List<coordinate>();
             snakeBoi.Add(snake); // head
@@ -97,6 +99,14 @@ namespace mpSnake
             bool apple = false;
             coordinate appleLoc = new coordinate();
             //Game loop
+
+            string top = "";
+            for (int i = 0; i < width; i++)
+                top += " ";
+
+            string side = "";
+            for (int i = 0; i < height; i++)
+                side += " \n";
 
 
             // Get username
@@ -109,7 +119,7 @@ namespace mpSnake
                 //has a key been pressed?
                 Movement(ref xdirection, ref ydirection);
 
-                //clear white background
+                //clear Black background
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.Clear();
 
@@ -131,7 +141,7 @@ namespace mpSnake
 
 
                 // draw snake
-                Draw(snakeBoi, appleLoc, name, width, height);
+                Draw(snakeBoi, appleLoc, name, width, height, side, top);
 
             }
 
@@ -182,13 +192,21 @@ namespace mpSnake
             }
         }
 
-        private static void Draw(List<coordinate> snake, coordinate appleLoc, string name, int width, int height)
+        private static void Draw(List<coordinate> snake, coordinate appleLoc, string name, int width, int height, string side, string top)
         {
             // DRAW BORDER
 
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
+            Console.SetCursorPosition(0, 0);
+            Console.Write(top);
+
+            Console.SetCursorPosition(0, height - 1);
+            Console.Write(top);
+
+
             Console.BackgroundColor = ConsoleColor.Black;
 
-            Console.SetCursorPosition(0, 0);
+            Console.SetCursorPosition(1, 1);
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write($"{name}: {snake.Count}");
 
@@ -196,7 +214,7 @@ namespace mpSnake
             Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.Write(" ");
 
-            System.Threading.Thread.Sleep(15); // kinda like a awful delta time
+            System.Threading.Thread.Sleep(20); // kinda like a awful delta time
             for (int i = 0; i < snake.Count; i++)
             {
                 Console.SetCursorPosition(snake[i].x, snake[i].y);
